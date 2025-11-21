@@ -29,7 +29,7 @@ ________________________________________________________________________________
 ________________________________________
 ***Data Refresh Strategy***
 
-***🔹 Dynamic Date Refresh (Live API Call) ***
+***🔹Dynamic Date Refresh (Live API Call)***
 
 This works only when an active API Subscription / live data is available. Inour case live data was not available.
 
@@ -43,7 +43,7 @@ print(f"start_date: {start_date}")
 
 print(f"end_date: {end_date}")
 ________________________________________
-***🔹 Static Data (Used Currently) ***
+***🔹Static Data (Used Currently)***
 
 As Live data for 2025-11-20 is not available — so we manually provide dates for historical reference:
 
@@ -56,6 +56,7 @@ ________________________________________
 Reads GeoJSON from USGS Earthquake API, extracts features and stores JSON into Fabric Lakehouse:
 
 import requests
+
 import json
 
 url = f"https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime={start_date}&endtime={end_date}"
@@ -86,6 +87,7 @@ ________________________________________
 Flatten GeoJSON structure and convert timestamps:
 
 from pyspark.sql.functions import *
+
 from pyspark.sql.types import *
 
 df = spark.read.option("multiline", "true").json(
@@ -132,7 +134,9 @@ ________________________________________
 ✔ Significance Classification (Low, Moderate, High)
 
 from pyspark.sql.functions import *
+
 from pyspark.sql.types import *
+
 import reverse_geocoder as rg
 
 df = spark.read.table("earthquake_events_silver") \
